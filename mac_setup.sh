@@ -80,6 +80,7 @@ if [[ $? == 0 ]] ; then
   printf "${SSP} 📟 ..installing oh-my-zsh \n"
   $ sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 fi
+cp ./zshrc ~/.zshrc
 
 # -----------------------------------------------------------------------------
 # VSCode
