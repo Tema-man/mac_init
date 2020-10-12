@@ -144,8 +144,10 @@ fi
 curl -fsSL https://raw.githubusercontent.com/rock3r/deep-clean/master/deep-clean.kts -o ~/dev/deep-clean.kts
 
 # -----------------------------------------------------------------------------
-# Install Google chrome
+# Install Apps
 brew_cask_install "google-chrome"
+brew_cask_install "jetbrains-toolbox"
+brew_cask_install "adguard"
 
 # -----------------------------------------------------------------------------
 # Fun tools
