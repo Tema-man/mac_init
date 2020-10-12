@@ -86,6 +86,7 @@ then
   ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 fi
 brew update
+brew upgrade
 
 # -----------------------------------------------------------------------------
 # Java
@@ -153,8 +154,6 @@ brew_install cowsay
 
 # -----------------------------------------------------------------------------
 # Finish setup
-brew upgrade
-
 printf "\n${UYellow}Please check out notes marked with a ⭕ listed below."
 printf "\nYou might need to do them manually for a complete setup!${E}"
 printf "\n${TODOS} \n\n"
