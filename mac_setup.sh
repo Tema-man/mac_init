@@ -21,6 +21,38 @@ MAN="\n ⭕ ${Yellow}~~~>"
 TODOS=""
 
 # -----------------------------------------------------------------------------
+# Functions
+function brew_install ()
+{
+    search_result=$(brew list | grep -m 1 "$1")
+    installing=0
+    if [ -z $search_result ]
+    then
+      printf "\n${UGreen} >> ...installing $1 ${E}"
+      brew install $1
+      installing=1
+    fi
+
+    printf "\n${UGreen}✅ $1 Successfully installed${E}"
+    return $installing
+}
+
+function brew_cask_install ()
+{
+    search_result=$(brew list --cask | grep -m 1 "$1")
+    installing=0
+    if [ -z $search_result ]
+    then
+      printf "\n${UGreen} >> ...installing $1 ${E}"
+      #brew cask install $1
+      installing=1
+    fi
+
+    printf "\n${UGreen}✅ $1 Successfully installed${E}"
+    return $installing
+}
+
+# -----------------------------------------------------------------------------
 # Begginning of script
 clear
 printf "\n${UGreen}👋 Hi there! let's prepare this machine for a development!${E}"
@@ -29,15 +61,16 @@ printf "${S}🍏 Let's start with a xcode dev tools. Installing..${E}"
 # -----------------------------------------------------------------------------
 # xCode tools & osx software updates
 xcode-select --install
-SoftwareUpdate -l | grep "Software Update found"
-if [[ $? != 0 ]] ; then
+R=$(SoftwareUpdate -l | grep -m 1 "Software Update found")
+if [ ! -z $R ]
+then
   printf "${SSP} 🍏 ..installing osx software updates \n"
   SoftwareUpdate -l -i -a
-  TODOS+="${MAN} 📟 ⭕ You shall ${Red}restart your mac${Yellow} to finish osx Software Update process${E}"
+  TODOS+="${MAN} 💻 You shall ${Red}restart your mac${Yellow} to finish osx Software Update process${E}"
 fi
 
 # -----------------------------------------------------------------------------
-# dev directory
+# Create dev directory
 cd ~
 if [ ! -d "dev" ] ; then
   printf "${S}📂 Directory ~/dev does not exists. Creating..${E}"
@@ -46,8 +79,9 @@ fi
 
 # -----------------------------------------------------------------------------
 # Homebrew
-which -s brew
-if [[ $? != 0 ]] ; then
+R=$(which brew)
+if [ -z $R ]
+then
   printf "${S}🍺 Homebrew is not installed. Installing Homebrew${E}"
   ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 fi
@@ -57,67 +91,73 @@ brew update
 # Java
 printf "${S}☕ Installing java and jenv${E}"
 printf "${SSP} ☕ ..installing jenv${E}"
-brew install jenv
-unset JAVA_TOOL_OPTIONS
-printf "${SSP} ☕ ..installing java 8, 11, and latest${E}"
-brew tap AdoptOpenJDK/openjdk
-brew install adoptopenjdk/openjdk/adoptopenjdk8 adoptopenjdk11 adoptopenjdk
-for D in /Library/Java/JavaVirtualMachines/* ; do [ -d "${D}" ] && jenv add "${D}/Contents/Home/"; done
+
+
+brew_install "jenv"
+if [ $? == 1 ]
+then
+  unset JAVA_TOOL_OPTIONS
+  printf "${SSP} ☕ ..installing java 8, 11, and latest${E}"
+  brew tap AdoptOpenJDK/openjdk
+  brew_cask_install "adoptopenjdk/openjdk/adoptopenjdk8"
+  brew_cask_install "adoptopenjdk11"
+  brew cask install "adoptopenjdk"
+  for D in /Library/Java/JavaVirtualMachines/* ; do [ -d "${D}" ] && jenv add "${D}/Contents/Home/"; done
+fi
+eval "$(jenv init -)"
 jenv enable-plugin gradle
 jenv enable-plugin export
-
 
 # -----------------------------------------------------------------------------
 # Terminal
 printf "${S}📟 Setiing up the terminal${E}"
-brew cask install iterm2
-TODOS+="${MAN} 📟 ⭕ You need to manually install the ${Red}iterm_profile.json${Yellow} to the iterm2 app${E}"
-brew list | grep zsh
-if [[ $? == 0 ]] ; then
-  printf "${SSP} 📟 ..installing zsh \n"
-  brew install zsh
+brew_cask_install "iterm2"
+TODOS+="${MAN} 📟 You need to manually install the ${Red}iterm_profile.json${Yellow} to the iterm2 app${E}"
+
+brew_install "zsh"
+if [ $? == 1 ]
+then
   chsh -s /usr/local/bin/zsh
   printf "${SSP} 📟 ..installing oh-my-zsh \n"
-  $ sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+  sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 fi
-cp ./zshrc ~/.zshrc
+cp .zshrc ~/.zshrc
+
 
 # -----------------------------------------------------------------------------
 # VSCode
-ls /Applications | grep "VSCode"
-if [[ $? == 0 ]] ; then
-  brew cask install visual-studio-code
-  curl -fsSL https://raw.githubusercontent.com/rock3r/deep-clean/master/deep-clean.kts -o ~/dev/deep-clean.kts
-fi
-
+brew_cask_install "visual-studio-code"
 # update vscode settings
 # install vscode extensions
 
 # -----------------------------------------------------------------------------
 # Setup android sdk
-
-# -----------------------------------------------------------------------------
-# Install deep clean
+TODOS+="${MAN} 🤖 Please use ${Red} $ANDROID_HOME ${Yellow} directory in android sdk installation${E}"
+# >> install deep clean
 brew install kotlin maven holgerbrandl/tap/kscript
+R=$(ls -la ~/div | grep -m 1 "deep-clean.kts")
+if [ ! -z $R ]
+then
+  rm ~/dev/deep-clean.kts
+fi
+curl -fsSL https://raw.githubusercontent.com/rock3r/deep-clean/master/deep-clean.kts -o ~/dev/deep-clean.kts
 
 # -----------------------------------------------------------------------------
-# Setup Google chrome
-ls /Applications | grep "Google Chrome"
-if [[ $? == 0 ]] ; then
-  brew cask install google-chrome
-fi
+# Install Google chrome
+brew_cask_install "google-chrome"
 
 # -----------------------------------------------------------------------------
 # Fun tools
-brew install fortune
-brew install cowsay
+brew_install fortune
+brew_install cowsay
 
 # -----------------------------------------------------------------------------
 # Finish setup
-if [[ $TODOS != 0 ]] ; then
-  printf "\n${UYellow}Please check out notes marked with a ⭕ listed below.
-          \nThey are needed to be done manually for a complete setup!${E}"
-  printf "\n${TODOS} \n\n"
-fi
+brew upgrade
 
-echo  "🎉 Congrats! All done! 🎉" | cowsay -f tux
+printf "\n${UYellow}Please check out notes marked with a ⭕ listed below."
+printf "\nYou might need to do them manually for a complete setup!${E}"
+printf "\n${TODOS} \n\n"
+
+echo  "🎉${Red}Congrats! All done!${NC} 🎉/"
+source ~/.zshrc

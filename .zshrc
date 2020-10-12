@@ -29,13 +29,11 @@ DISABLE_UNTRACKED_FILES_DIRTY="true"
 plugins=(
   git
   pj
-  colored-man-pages
-  battery
-  jenv
   git-prompt
 )
 # >> PJ plugin setup
 PROJECT_PATHS=(
+  ~/Doscuments
   ~/work
   ~/code
   ~/dev
@@ -44,14 +42,9 @@ PROJECT_PATHS=(
 # -----------------------------------------------------------------------------
 # User configuration
 source $ZSH/oh-my-zsh.sh
-eval "$(jenv init -)"
 # >> prompt settings
-emojis=("👾" "🍒" "🎲" "🌍" "🐉" "🌵")
-EMOJI=${emojis[$RANDOM % ${#emojis[@]} ]}
-
-PROMPT='%B%m%~%b$(git_super_status) %# '
-PROMPT="$EMOJI "'%(?.%F{green}.%F{red}?%?)%f %B%F{130}%1~%f%b $(git_super_status) %# '
-RPROMPT='[jvm ~ $(jenv_prompt_info) | $(battery_pct_prompt)]'
+PROMPT='🍒 %(?.%F{green}.%F{red}?%?)%f %B%F{130}%1~%f%b %# '
+RPROMPT='[$(git_super_status)]'
 
 # -----------------------------------------------------------------------------
 # Aliases
@@ -60,5 +53,11 @@ alias ohmyzsh="vim ~/.oh-my-zsh"
 alias remove-empty-dirs='find . -type d -empty -delete'
 alias cld='~/dev/deep-clean.kts'
 alias cldn='~/dev/deep-clean.kts -n'
+alias jenvi='eval "$(jenv init -)"'
 
+# -----------------------------------------------------------------------------
 # Key Bindings
+
+# -----------------------------------------------------------------------------
+# Fun
+fortune | cowsay -f tux
