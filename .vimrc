@@ -1,4 +1,4 @@
-set nocompatible              " be iMproved, required
+set nocompatible              " be improved, required
 filetype off                  " required
 
 " set the runtime path to include Vundle and initialize
@@ -14,15 +14,18 @@ Plugin 'VundleVim/Vundle.vim'
 " Keep Plugin commands between vundle#begin/end.
 " plugin on GitHub repo
 Plugin 'tpope/vim-fugitive'
+
 " plugin from http://vim-scripts.org/vim/scripts.html
 " Plugin 'L9'
 " Git plugin not hosted on GitHub
 Plugin 'git://git.wincent.com/command-t.git'
+
 " git repos on your local machine (i.e. when working on your own plugin)
 " Plugin 'file:///home/gmarik/path/to/plugin'
 " The sparkup vim script is in a subdirectory of this repo called vim.
 " Pass the path to set the runtimepath properly.
 Plugin 'rstacruz/sparkup', {'rtp': 'vim/'}
+
 " Install L9 and avoid a Naming conflict if you've already installed a
 " different version somewhere else.
 " Plugin 'ascenator/L9', {'name': 'newL9'}
@@ -34,6 +37,7 @@ Plugin 'tpope/vim-surround'
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
 filetype plugin indent on    " required
+
 " To ignore plugin indent changes, instead use:
 "filetype plugin on
 "
@@ -46,62 +50,51 @@ filetype plugin indent on    " required
 " see :h vundle for more details or wiki for FAQ
 " Put your non-Plugin stuff after this line
 
+" Trim spaces before saving python files
+autocmd BufWritePre *.py normal m`:%s/\s\+$//e ``
 
+" Enable clever tabs for python files
+autocmd BufRead *.py set smartindent cinwords=if,elif,else,for,while,try,except,finally,def,class
 
+let python_highlight_all = 1            " Enable highlight in python
 
-" Настройки табов для Python, согласно рекоммендациям
+" Tabs settings for pythos Python, as in reocommendations
 set tabstop=4 
 set shiftwidth=4
 set smarttab
-set expandtab "Ставим табы пробелами
-set softtabstop=4 "4 пробела в табе
-" Автоотступ
-set autoindent
-" Подсвечиваем все что можно подсвечивать
-let python_highlight_all = 1
-" Включаем 256 цветов в терминале, мы ведь работаем из иксов?
-" Нужно во многих терминалах, например в gnome-terminal
-set t_Co=256
+set expandtab 
+set softtabstop=4                       " Use 4 spaces as a tab
 
-" Перед сохранением вырезаем пробелы на концах (только в .py файлах)
-autocmd BufWritePre *.py normal m`:%s/\s\+$//e ``
-" В .py файлах включаем умные отступы после ключевых слов
-autocmd BufRead *.py set smartindent cinwords=if,elif,else,for,while,try,except,finally,def,class
+set autoindent                          " Autoindent
+set t_Co=256                            " Enable 256 colors in terminal, required e.g. in gnome-terminal
+syntax on                               " Enable syntax highlith
+set nu                                  " Enable strings numbers
+set mousehide                           " Hide mouse cursor on type
+set mouse=a                             " Enable mouse
+set novisualbell                        " Disable blinking alert
+set t_vb=                               " Disable sound alerts
+set visualbell t_vb=                    " Disable sound alerts in VIM
+set showtabline=1                       " Disable dashes display on tabs
+set wrap                                " Enable linewrap
+set linebreak                           " Enable line breaks
 
-syntax on "Включить подсветку синтаксиса
+" Adjust backspace beahvoiur
+set backspace=indent,eol,start whichwrap+=<,>,[,]   
 
-" set nu "Включаем нумерацию строк
-set mousehide "Спрятать курсор мыши когда набираем текст
-set mouse=a "Включить поддержку мыши
-set termencoding=utf-8 "Кодировка терминала
-set novisualbell "Не мигать 
-set t_vb= "Не пищать! (Опции 'не портить текст', к сожалению, нету)
-" Удобное поведение backspace
-set backspace=indent,eol,start whichwrap+=<,>,[,]
-" Вырубаем черточки на табах
-set showtabline=1
-
-" Переносим на другую строчку, разрываем строки
-set wrap
-set linebreak
-
-" Вырубаем .swp и ~ (резервные) файлы
-set nobackup
+set nobackup                            " Disable .swp and ~ (backup) files
 set noswapfile
-set encoding=utf-8 " Кодировка файлов по умолчанию
-set fileencodings=utf8,cp1251
-
 set clipboard=unnamed
 set ruler
-
 set hidden
+
+set termencoding=utf-8                  " Set terminal encoding
+set encoding=utf-8                      " Setting default files encoding
+set fileencodings=utf8,cp1251
+
 nnoremap <C-N> :bnext<CR>
 nnoremap <C-P> :bprev<CR>
 
-" Выключаем звук в Vim
-set visualbell t_vb=
-
-"Переключение табов по CMD+number для MacVim
+" Tabs swithing with CMD+number for MacVim
 if has("gui_macvim")
   " Press Ctrl-Tab to switch between open tabs (like browser tabs) to 
   " the right side. Ctrl-Shift-Tab goes the other way.
