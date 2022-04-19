@@ -71,20 +71,24 @@ function instalXcodeTools() {
 
 function createDeveloperDirectory(){
   cd ~
-  if [ ! -d "Developer" ] ; then
+  if [ ! -d "~/Developer" ]
+  then
     printf "${S}📂 Directory ~/Developer does not exists. Creating..${E}"
     mkdir Developer
+  else
+    printf "${S}📂 Directory ~/Developer exists.${E}"
   fi
   cd -
 }
 
 function installHomebrew(){
   R=$(which brew)
-  if [ -z $R ]
+  if [ ! $? -eq 0 ]
   then
     printf "${S}🍺 Homebrew is not installed. Installing Homebrew${E}"
     /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
   fi
+  printf "${S}🍺 Updating Homebrew${E}"
   brew update
   brew upgrade
 }
@@ -93,9 +97,8 @@ function installJava(){
   printf "${S}☕ Installing java and jenv${E}"
   printf "${SSP} ☕ ..installing jenv${E}"
 
-
   brew_install "jenv"
-  if [ $? == 1 ]
+  if [ $? -eq 1 ]
   then
     unset JAVA_TOOL_OPTIONS
     printf "${SSP} ☕ ..installing java 11, and latest${E}"
@@ -165,12 +168,12 @@ function finishSetup(){
 
 startSetup
 instalXcodeTools
-# createDeveloperDirectory
-# installHomebrew
-# installJava
-# setupTerminal
-# setupVim
-# setupVSCode
-# setupDeepClean
-# installApps
+createDeveloperDirectory
+installHomebrew
+installJava
+setupTerminal
+setupVim
+setupVSCode
+setupDeepClean
+installApps
 finishSetup
