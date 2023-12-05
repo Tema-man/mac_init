@@ -133,10 +133,8 @@ function setupVim(){
 }
 
 function installApps() {
-  brew_cask_install "visual-studio-code"
   brew_cask_install "google-chrome"
   brew_cask_install "jetbrains-toolbox"
-  brew_cask_install "adguard"
   brew_cask_install "obsidian"
 }
 
