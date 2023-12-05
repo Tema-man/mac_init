@@ -129,29 +129,15 @@ function setupTerminal(){
 function setupVim(){
   git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
   cp .vimrc ~/.vimrc
+  vim +PluginInstall +qall
 }
-
-function setupVSCode(){
-  brew_cask_install "visual-studio-code"
-  # update vscode settings
-  # install vscode extensions
-}
-
-# function setupDeepClean() {
-  # >> install deep clean
-  # brew install kotlin maven holgerbrandl/tap/kscript
-  # R=$(ls -la ~/Developer | grep -m 1 "deep-clean.kts")
-  # if [ ! -z $R ]
-  # then 
-  #   rm ~/Developer/deep-clean.kts
-  # fi
-  # curl -fsSL https://raw.githubusercontent.com/rock3r/deep-clean/master/deep-clean.kts -o ~/Developer/deep-clean.kts
-# }
 
 function installApps() {
+  brew_cask_install "visual-studio-code"
   brew_cask_install "google-chrome"
   brew_cask_install "jetbrains-toolbox"
   brew_cask_install "adguard"
+  brew_cask_install "obsidian"
 }
 
 function finishSetup(){
@@ -173,7 +159,5 @@ installHomebrew
 installJava
 setupTerminal
 setupVim
-setupVSCode
-setupDeepClean
 installApps
 finishSetup
