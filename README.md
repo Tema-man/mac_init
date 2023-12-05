@@ -12,22 +12,22 @@ Contains:
  - Check for Mac updates and installs it if required
  - Installs xcode dev tools
  - Creates a ~/Developer directory
- - Installs (homebrew)[https://brew.sh/]
+ - Installs [homebrew](https://brew.sh/)
  - Setups java 
-    - Installs (jenv)[https://www.jenv.be/]
+    - Installs [jenv](https://www.jenv.be/)
     - Installs Java latest and 11th
  - Setups terminal
-    - Installs (iterm2)[https://iterm2.com/]
-    - Installs (zsh)[https://www.zsh.org/] and sets it to be a default shell
-    - Installs (oh-my-zsh)[https://ohmyz.sh/]
+    - Installs [iterm2](https://iterm2.com/)
+    - Installs [zsh](https://www.zsh.org/) and sets it to be a default shell
+    - Installs [oh-my-zsh](https://ohmyz.sh/)
     - Copy **.zshrc** to your home directory
  - Setups vim
-    - Installs (vundle)[https://github.com/VundleVim/Vundle.vim] a vim's plugins manager
+    - Installs [vundle](https://github.com/VundleVim/Vundle.vim) a vim's plugins manager
     - Copy **.vimrc** to your home directory
     - Installs basic vim plugins
  - Installs apps
-    - (Google chrome)[https://www.google.com/chrome/]
-    - (Jetbrains toolbox)[https://www.jetbrains.com/toolbox-app/]
-    - (Obsidian)[https://obsidian.md/]
+    - [Google chrome](https://www.google.com/chrome/)
+    - [Jetbrains toolbox](https://www.jetbrains.com/toolbox-app/)
+    - [Obsidian](https://obsidian.md/)
 
 
