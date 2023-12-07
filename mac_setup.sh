@@ -138,6 +138,17 @@ function installApps() {
   brew_cask_install "obsidian"
 }
 
+function setupHomeAndEndKeys() {
+  if [ ! -d "~/Library/KeyBindings" ]
+  then
+    printf "${S}📂 Directory ~/LibraryKeyBindings does not exists. Creating..${E}"
+    mkdir ~/Library/Keybindings
+  else
+    printf "${S}📂 Directory ~/Developer exists.${E}"
+  fi
+  cp DefaultKeyBinding.dict ~/Library/KeyBindings/DefaultKeyBinding.dict
+}
+
 function finishSetup(){
   printf "\n${UYellow}Please check out notes marked with a ⭕ listed below."
   printf "\nYou might need to do them manually for a complete setup!${E}"
@@ -158,4 +169,5 @@ installJava
 setupTerminal
 setupVim
 installApps
+setupHomeAndEndKeys
 finishSetup

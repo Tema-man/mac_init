@@ -29,5 +29,5 @@ Contains:
     - [Google chrome](https://www.google.com/chrome/)
     - [Jetbrains toolbox](https://www.jetbrains.com/toolbox-app/)
     - [Obsidian](https://obsidian.md/)
-
+ - Modifies the behaviour of `HOME` and `END` keys to move the cursor in a windows manner
 
