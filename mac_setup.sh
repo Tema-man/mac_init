@@ -141,7 +141,7 @@ function installApps() {
 function setupHomeAndEndKeys() {
   if [ ! -d "~/Library/KeyBindings" ]
   then
-    printf "${S}📂 Directory ~/LibraryKeyBindings does not exists. Creating..${E}"
+    printf "${S}📂 Directory ~/Library/KeyBindings does not exists. Creating..${E}"
     mkdir ~/Library/Keybindings
   else
     printf "${S}📂 Directory ~/Developer exists.${E}"
@@ -161,13 +161,13 @@ function finishSetup(){
 # -----------------------------------------------------------------------------
 # Script beginning
 
-startSetup
-instalXcodeTools
-createDeveloperDirectory
-installHomebrew
-installJava
-setupTerminal
-setupVim
-installApps
+#startSetup
+#instalXcodeTools
+#createDeveloperDirectory
+#installHomebrew
+#installJava
+#setupTerminal
+#setupVim
+#installApps
 setupHomeAndEndKeys
-finishSetup
+#finishSetup
